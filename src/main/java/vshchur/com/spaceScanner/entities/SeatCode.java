@@ -9,18 +9,18 @@ public class SeatCode {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "SEAT_CODE_ID", nullable = false)
-    private String seatCodeId;
+    private long seatCodeId;
     @Column(name = "SEAT_CODE", length = 15, nullable = false)
     private String seatCode;
     @OneToOne
     @JoinColumn(name = "space_shuttle_id")
     private SpaceShuttle spaceShuttle;
 
-    public String getSeatCodeId() {
+    public long getSeatCodeId() {
         return seatCodeId;
     }
 
-    public void setSeatCodeId(String seatCodeId) {
+    public void setSeatCodeId(long seatCodeId) {
         this.seatCodeId = seatCodeId;
     }
 

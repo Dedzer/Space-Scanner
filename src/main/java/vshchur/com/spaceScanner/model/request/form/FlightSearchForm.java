@@ -5,20 +5,11 @@ import java.time.LocalTime;
 
 public class FlightSearchForm {
 
-    private LocalTime departureTime;
     private LocalDate departureDate;
-    private LocalTime returnDepartureTime;
     private LocalDate returnDepartureDate;
     private String arrivalAirportCode;
     private String departureAirportCode;
 
-    public LocalTime getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(LocalTime departureTime) {
-        this.departureTime = departureTime;
-    }
 
     public LocalDate getDepartureDate() {
         return departureDate;
@@ -26,14 +17,6 @@ public class FlightSearchForm {
 
     public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
-    }
-
-    public LocalTime getReturnDepartureTime() {
-        return returnDepartureTime;
-    }
-
-    public void setReturnDepartureTime(LocalTime returnDepartureTime) {
-        this.returnDepartureTime = returnDepartureTime;
     }
 
     public LocalDate getReturnDepartureDate() {

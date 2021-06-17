@@ -25,6 +25,8 @@ public class FlightDTO {
     private Float distance;
     private BigDecimal price;
 
+
+
     public static FlightDTO fromCharterFlight(CharterFlight charterFlight) {
         FlightDTO flightDTO = new FlightDTO();
         flightDTO.setFlightId(charterFlight.getCharterFlightId());

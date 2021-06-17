@@ -6,7 +6,6 @@ import org.springframework.data.repository.query.Param;
 import vshchur.com.spaceScanner.entities.CharterFlight;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public interface CharterFlightRepository extends JpaRepository<CharterFlight, Long> {
@@ -20,14 +19,12 @@ public interface CharterFlightRepository extends JpaRepository<CharterFlight, Lo
                     "where (" +
                     " select count(*) from border_pass_t where charter_flight_id=charter_flight_t.charter_flight_id" +
                     ") < space_shuttle_t.places_amount " +
-                    "and charter_flight_t.departure_date =:departureDate "+
-                    "and charter_flight_t.departure_time >:departureTime " +
+                    "and charter_flight_t.departure_date =:departureDate " +
                     "and departure.airport_code =:departureAirportCode " +
                     "and arrival.airport_code =:arrivalAirportCode",
             nativeQuery = true
     )
     List<CharterFlight> findAllAvailableFlights(@Param("departureDate") LocalDate departureDate,
-                                                @Param("departureTime") LocalTime departureTime,
                                                 @Param("departureAirportCode") String departureAirportCode,
                                                 @Param("arrivalAirportCode") String arrivalAirportCode);
 }

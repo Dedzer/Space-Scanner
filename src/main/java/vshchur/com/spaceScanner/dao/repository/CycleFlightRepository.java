@@ -6,7 +6,6 @@ import org.springframework.data.repository.query.Param;
 import vshchur.com.spaceScanner.entities.CycleFlight;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public interface CycleFlightRepository extends JpaRepository<CycleFlight, Long> {
@@ -22,13 +21,11 @@ public interface CycleFlightRepository extends JpaRepository<CycleFlight, Long> 
                     " select count(*) from border_pass_t where border_pass_t.cycle_flight_id=cycle_flight_t.cycle_flight_id" +
                     ") < space_shuttle_t.places_amount " +
                     "and cycle_flight_t.departure_date =:departureDate " +
-                    "and regular_flight_t.departure_time >:departureTime " +
                     "and departure.airport_code =:departureAirportCode " +
                     "and arrival.airport_code =:arrivalAirportCode",
             nativeQuery = true
     )
     List<CycleFlight> findAllAvailableFlights(@Param("departureDate") LocalDate departureDate,
-                                              @Param("departureTime") LocalTime departureTime,
                                               @Param("departureAirportCode") String departureAirportCode,
                                               @Param("arrivalAirportCode") String arrivalAirportCode);
 }

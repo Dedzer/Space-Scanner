@@ -7,8 +7,12 @@ import vshchur.com.spaceScanner.enums.FlightType;
 import vshchur.com.spaceScanner.exception.SeatCodeUnavailableException;
 import vshchur.com.spaceScanner.model.request.form.FlightReservationForm;
 import vshchur.com.spaceScanner.model.response.dto.BorderPassDTO;
+import vshchur.com.spaceScanner.model.response.dto.SeatCodeDTO;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BorderPassService {
@@ -53,6 +57,40 @@ public class BorderPassService {
         borderPass.setTourist(tourist);
         borderPass.setBorderPassId(borderPassKey);
         return BorderPassDTO.fromBorderPass(borderPassRepository.saveAndFlush(borderPass));
+    }
+
+    public List<BorderPassDTO> findUserFlights(long userId) {
+        return borderPassRepository.findAllByUserId(userId).stream()
+                .map(BorderPassDTO::fromBorderPass).collect(Collectors.toList());
+    }
+
+    public List<BorderPass> findAllByFlightId(long flightId, FlightType flightType) {
+        if (FlightType.CHARTER.equals(flightType)) {
+            return borderPassRepository.findAllByCharterId(flightId);
+        } else if (FlightType.CYCLE.equals(flightType)) {
+            return borderPassRepository.findAllByCycleId(flightId);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    public List<SeatCodeDTO> findAvailableSeatCodes(long flightId, FlightType flightType) {
+        long shuttleId;
+        if (FlightType.CHARTER.equals(flightType)) {
+            CharterFlight charterFlight = getCharterFlight(flightId);
+            shuttleId = charterFlight.getSpaceShuttle().getSpaceShuttleId();
+        } else {
+            CycleFlight cycleFlight = getCycleFlight(flightId);
+            shuttleId = cycleFlight.getRegularFlight().getSpaceShuttle().getSpaceShuttleId();
+        }
+        List<SeatCode> seatCodes = seatCodeService.findAllByShuttleId(shuttleId);
+        List<BorderPass> borderPasses = findAllByFlightId(flightId, flightType);
+        return seatCodes.stream()
+                .filter(seatCode -> borderPasses.stream()
+                        .map(BorderPass::getSeatCode)
+                        .noneMatch(s -> s.getSeatCodeId() == seatCode.getSeatCodeId()))
+                .map(SeatCodeDTO::fromSeatCode)
+                .collect(Collectors.toList());
     }
 
     private CharterFlight getCharterFlight(long flightId) {

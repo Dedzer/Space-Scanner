@@ -6,12 +6,12 @@ import vshchur.com.spaceScanner.entities.Planet;
 public class PlanetDTO {
 
     private String planetName;
-    private String planerCode;
+    private String planetCode;
 
 
     public static PlanetDTO fromPlanet(Planet planet) {
         PlanetDTO planetDTO = new PlanetDTO();
-        planetDTO.setPlanerCode(planet.getPlanetCode());
+        planetDTO.setPlanetCode(planet.getPlanetCode());
         planetDTO.setPlanetName(planet.getPlanetName());
         return planetDTO;
     }
@@ -24,11 +24,11 @@ public class PlanetDTO {
         this.planetName = planetName;
     }
 
-    public String getPlanerCode() {
-        return planerCode;
+    public String getPlanetCode() {
+        return planetCode;
     }
 
-    public void setPlanerCode(String planerCode) {
-        this.planerCode = planerCode;
+    public void setPlanetCode(String planetCode) {
+        this.planetCode = planetCode;
     }
 }

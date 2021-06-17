@@ -9,15 +9,15 @@ import java.util.Objects;
 public class BorderPassKey implements Serializable {
 
     @Column(name = "SEAT_CODE_ID")
-    private String seatCodeId;
+    private long seatCodeId;
     @Column(name = "TOURIST_ID")
     private Long touristId;
 
-    public String getSeatCodeId() {
+    public long getSeatCodeId() {
         return seatCodeId;
     }
 
-    public void setSeatCodeId(String seatCodeId) {
+    public void setSeatCodeId(long seatCodeId) {
         this.seatCodeId = seatCodeId;
     }
 

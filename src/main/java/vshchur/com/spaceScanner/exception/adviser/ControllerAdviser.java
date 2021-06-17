@@ -55,4 +55,14 @@ public class ControllerAdviser extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorDTO> handleSeatCodeNotFoundException(SeatCodeNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getErrorDTO());
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorDTO> handleUnauthorizedException(UnauthorizedException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getErrorDTO());
+    }
+
+    @ExceptionHandler(RegisterException.class)
+    public ResponseEntity<ErrorDTO> handleRegisterException(RegisterException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getErrorDTO());
+    }
 }

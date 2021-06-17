@@ -10,8 +10,9 @@ import vshchur.com.spaceScanner.model.request.form.UserForm;
 import vshchur.com.spaceScanner.service.UserService;
 import vshchur.com.spaceScanner.util.JwtUtil;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,14 +27,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody UserForm userForm, HttpServletResponse response) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody UserForm userForm, HttpServletResponse response) {
         Long userId = userService.verifyCredentials(userForm);
-        Cookie cookie = new Cookie("space_scanner_token", jwtUtil.generateToken(userId));
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setMaxAge(1800);
-        response.addCookie(cookie);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        Map<String, String> map = new HashMap<>();
+        map.put("token", jwtUtil.generateToken(userId));
+        return ResponseEntity.status(HttpStatus.OK).body(map);
     }
 }

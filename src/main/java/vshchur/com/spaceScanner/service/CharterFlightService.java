@@ -32,8 +32,8 @@ public class CharterFlightService {
     public AvailableFlightsDTO findAvailableFlights(FlightSearchForm form) {
         AvailableFlightsDTO availableFlightsDTO = new AvailableFlightsDTO();
         availableFlightsDTO.setAvailableFlights(getAvailableFlights(form));
-        if (form.getReturnDepartureDate() != null && form.getReturnDepartureTime() != null) {
-            availableFlightsDTO.setAvailableFlights(getAvailableReturnFlights(form));
+        if (form.getReturnDepartureDate() != null) {
+            availableFlightsDTO.setReturnAvailableFlights(getAvailableReturnFlights(form));
         }
         if (availableFlightsDTO.getReturnAvailableFlights() == null) {
             availableFlightsDTO.setReturnAvailableFlights(Collections.emptyList());
@@ -45,18 +45,22 @@ public class CharterFlightService {
     }
 
     private List<FlightDTO> getAvailableFlights(FlightSearchForm form) {
-        return charterFlightRepository.findAllAvailableFlights(form.getDepartureDate(),
-                form.getDepartureTime(), form.getDepartureAirportCode(), form.getArrivalAirportCode()).stream()
+        return charterFlightRepository.findAllAvailableFlights(form.getDepartureDate(), form.getDepartureAirportCode(),
+                form.getArrivalAirportCode()).stream()
                 .map(FlightDTO::fromCharterFlight).collect(Collectors.toList());
     }
 
     private List<FlightDTO> getAvailableReturnFlights(FlightSearchForm form) {
-        return charterFlightRepository.findAllAvailableFlights(form.getReturnDepartureDate(),
-                form.getReturnDepartureTime(), form.getArrivalAirportCode(), form.getDepartureAirportCode()).stream()
+        return charterFlightRepository.findAllAvailableFlights(form.getReturnDepartureDate(), form.getArrivalAirportCode(),
+                form.getDepartureAirportCode()).stream()
                 .map(FlightDTO::fromCharterFlight).collect(Collectors.toList());
     }
 
     public CharterFlight findFlight(long flightId) {
         return charterFlightRepository.findById(flightId).orElseThrow(FlightNotFoundException::new);
+    }
+
+    public FlightDTO getFlight(long flightId) {
+        return FlightDTO.fromCharterFlight(findFlight(flightId));
     }
 }

@@ -41,8 +41,8 @@ public class RegularFlightService {
     public AvailableFlightsDTO findAvailableFlights(FlightSearchForm form) {
         AvailableFlightsDTO availableFlightsDTO = new AvailableFlightsDTO();
         availableFlightsDTO.setAvailableFlights(getAvailableFlights(form));
-        if (form.getReturnDepartureDate() != null && form.getReturnDepartureTime() != null) {
-            availableFlightsDTO.setAvailableFlights(getAvailableReturnFlights(form));
+        if (form.getReturnDepartureDate() != null) {
+            availableFlightsDTO.setReturnAvailableFlights(getAvailableReturnFlights(form));
         }
         if (availableFlightsDTO.getReturnAvailableFlights() == null) {
             availableFlightsDTO.setReturnAvailableFlights(Collections.emptyList());
@@ -54,14 +54,14 @@ public class RegularFlightService {
     }
 
     private List<FlightDTO> getAvailableFlights(FlightSearchForm form) {
-        return cycleFlightRepository.findAllAvailableFlights(form.getDepartureDate(),
-                form.getDepartureTime(), form.getDepartureAirportCode(), form.getArrivalAirportCode()).stream()
+        return cycleFlightRepository.findAllAvailableFlights(form.getDepartureDate(), form.getDepartureAirportCode(),
+                form.getArrivalAirportCode()).stream()
                 .map(FlightDTO::fromCycleFlight).collect(Collectors.toList());
     }
 
     private List<FlightDTO> getAvailableReturnFlights(FlightSearchForm form) {
-        return cycleFlightRepository.findAllAvailableFlights(form.getReturnDepartureDate(),
-                form.getReturnDepartureTime(), form.getArrivalAirportCode(), form.getDepartureAirportCode()).stream()
+        return cycleFlightRepository.findAllAvailableFlights(form.getReturnDepartureDate(), form.getArrivalAirportCode(),
+                form.getDepartureAirportCode()).stream()
                 .map(FlightDTO::fromCycleFlight).collect(Collectors.toList());
     }
 }
