@@ -1,16 +1,17 @@
 package vshchur.com.spaceScanner.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import vshchur.com.spaceScanner.model.request.form.FlightReservationForm;
 import vshchur.com.spaceScanner.model.response.dto.BorderPassDTO;
 import vshchur.com.spaceScanner.service.BorderPassService;
 import vshchur.com.spaceScanner.service.TouristService;
 import vshchur.com.spaceScanner.util.JwtUtil;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Optional;
 
 //todo tourist profile with login/password
@@ -32,17 +33,11 @@ public class TouristsController {
 
     @PostMapping("/reserve")
     public ResponseEntity<BorderPassDTO> reservePlace(@RequestBody FlightReservationForm form, HttpServletRequest request) {
-        return ResponseEntity.ok(borderPassService.generateBorderPass(form, jwtUtil.retrieveUserId(readCookie(request))));
+        return ResponseEntity.ok(borderPassService.generateBorderPass(form, jwtUtil.retrieveUserId(readToken(request))));
     }
 
-    private Optional<String> readCookie(HttpServletRequest request) {
-        if (request.getCookies() == null) {
-            return Optional.empty();
-        }
-        return Arrays.stream(request.getCookies())
-                .filter(c -> "space_scanner_token".equals(c.getName()))
-                .map(Cookie::getValue)
-                .findAny();
+    private Optional<String> readToken(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader("Authorization"));
     }
 
 }
