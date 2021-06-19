@@ -3,14 +3,14 @@ package vshchur.com.spaceScanner.model.response.dto;
 public class BorderPassTouristDTO extends TouristDTO {
 
 
-    private String seatCodeId;
+    private String seatCode;
 
 
-    public String getSeatCodeId() {
-        return seatCodeId;
+    public String getSeatCode() {
+        return seatCode;
     }
 
-    public void setSeatCodeId(String seatCodeId) {
-        this.seatCodeId = seatCodeId;
+    public void setSeatCode(String seatCode) {
+        this.seatCode = seatCode;
     }
 }

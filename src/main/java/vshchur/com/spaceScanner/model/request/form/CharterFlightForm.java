@@ -1,20 +1,19 @@
 package vshchur.com.spaceScanner.model.request.form;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class CharterFlightForm extends FlightForm {
 
-    private LocalTime arrivalTime;
+    private String arrivalTime;
     private LocalDate arrivalDate;
-    private LocalTime departureTime;
+    private String departureTime;
     private LocalDate departureDate;
 
-    public LocalTime getArrivalTime() {
+    public String getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(LocalTime arrivalTime) {
+    public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
@@ -26,11 +25,11 @@ public class CharterFlightForm extends FlightForm {
         this.arrivalDate = arrivalDate;
     }
 
-    public LocalTime getDepartureTime() {
+    public String getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(LocalTime departureTime) {
+    public void setDepartureTime(String departureTime) {
         this.departureTime = departureTime;
     }
 

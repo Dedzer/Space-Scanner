@@ -8,6 +8,13 @@ import vshchur.com.spaceScanner.service.AirportService;
 import vshchur.com.spaceScanner.service.FlightService;
 import vshchur.com.spaceScanner.service.SpaceShuttleService;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.util.Locale;
+import java.util.Map;
+
 @Component
 public class CharterFlightDataConverter extends FlightDataConverter {
 
@@ -21,9 +28,19 @@ public class CharterFlightDataConverter extends FlightDataConverter {
         charterFlight.setFlight(flight);
         charterFlight.setSpaceShip(getSpaceShuttle(charterFlightForm.getSpaceShuttleCode()));
         charterFlight.setArrivalDate(charterFlightForm.getArrivalDate());
-        charterFlight.setArrivalTime(charterFlightForm.getArrivalTime());
+        charterFlight.setArrivalTime(parseUSTime(charterFlightForm.getArrivalTime()));
         charterFlight.setDepartureDate(charterFlightForm.getDepartureDate());
-        charterFlight.setDepartureTime(charterFlightForm.getDepartureTime());
+        charterFlight.setDepartureTime(parseUSTime(charterFlightForm.getDepartureTime()));
         return charterFlight;
     }
+
+    private LocalTime parseUSTime(String time) {
+        Map<Long, String> ampmStrings = Map.of(0L, "p", 1L, "a");
+        DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder()
+                .appendPattern("hh:mm")
+                .appendText(ChronoField.AMPM_OF_DAY, ampmStrings)
+                .toFormatter();
+        return LocalTime.parse(time, timeFormatter);
+    }
+
 }

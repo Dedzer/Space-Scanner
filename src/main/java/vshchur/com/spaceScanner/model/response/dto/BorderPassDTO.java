@@ -2,9 +2,6 @@ package vshchur.com.spaceScanner.model.response.dto;
 
 import vshchur.com.spaceScanner.entities.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 public class BorderPassDTO extends FlightDTO {
 
     private BorderPassTouristDTO tourist;
@@ -40,7 +37,7 @@ public class BorderPassDTO extends FlightDTO {
             borderPassDTO.setDepartureAirport(cycleFlight.getRegularFlight().getFlight().getDeparture().getAirportName());
             borderPassDTO.setDeparturePlanet(cycleFlight.getRegularFlight().getFlight().getDeparture().getPlanet().getPlanetName());
         }
-        borderPassTouristDTO.setSeatCodeId(borderPass.getSeatCode().getSeatCode());
+        borderPassTouristDTO.setSeatCode(borderPass.getSeatCode().getSeatCode());
         borderPassDTO.setTourist(borderPassTouristDTO);
         return borderPassDTO;
     }
